@@ -12,7 +12,7 @@ const TaskForm = () => {
     e.preventDefault();
   
     // Send task data to the backend API
-    axios.post('http://localhost:4444/api/tasks/create', {
+    axios.post('https://note-server-gu2m.onrender.com/api/tasks/create', {
       title,
       description,
       deadline,
@@ -23,7 +23,6 @@ const TaskForm = () => {
     })
       .then(response => {
         console.log('Task created successfully:', response.data);
-        // Optionally, redirect or update the task list
         toast.success('Task created successfully');
 
         // Clear the form fields

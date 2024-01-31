@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 const Register = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [email, setEmail] = useState(''); // Add email state
+  const [email, setEmail] = useState('');
 
   const navigate = useNavigate(); // Hook for navigation
 
@@ -14,20 +14,18 @@ const Register = () => {
     e.preventDefault();
 
     // Send registration data to the backend API
-    axios.post('http://localhost:4444/api/users/register', {
+    axios.post('https://note-server-gu2m.onrender.com/api/users/register', {
       username,
       email,
       password,
     })
     .then(response => {
       console.log('Registration successful:', response.data);
-      // Optionally, redirect or show a success message
       toast.success('Registration successful');
       navigate('/login'); // Navigate to the login page after successful registration
     })
     .catch(error => {
       if (error.response && error.response.status === 409) {
-        // User is already registered
         toast.error('User is already registered. Please try a different username or email.');
       } else {
         console.error('Error registering:', error);

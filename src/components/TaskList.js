@@ -15,7 +15,7 @@ const TaskList = () => {
 
   useEffect(() => {
     // Fetch tasks from the backend API
-    axios.get('http://localhost:4444/api/tasks', {
+    axios.get('https://note-server-gu2m.onrender.com/api/tasks', {
       headers: {
         Authorization: localStorage.getItem('token'), // Include the JWT token in the headers
       },
@@ -30,7 +30,7 @@ const TaskList = () => {
 
   const handleCompleteTask = (taskId) => {
     // Send request to mark task as complete
-    axios.put(`http://localhost:4444/api/tasks/${taskId}/update`, { completed: true }, {
+    axios.put(`https://note-server-gu2m.onrender.com/api/tasks/${taskId}/update`, { completed: true }, {
       headers: {
         Authorization: localStorage.getItem('token'), // Include the JWT token in the headers
       },
@@ -73,11 +73,7 @@ const TaskList = () => {
   };
 
   const handleSaveEdit = (taskId) => {
-    // Implement logic to send edited task details to the backend and update the task
-    // Here, you can use axios.put or another method to update the task details
-
-    // For example:
-    axios.put(`http://localhost:4444/api/tasks/${taskId}/update`, editedTask, {
+    axios.put(`https://note-server-gu2m.onrender.com/api/tasks/${taskId}/update`, editedTask, {
       headers: {
         Authorization: localStorage.getItem('token'), // Include the JWT token in the headers
       },
@@ -103,14 +99,13 @@ const TaskList = () => {
 
   const handleDeleteTask = (taskId) => {
     // Send request to delete task
-    axios.delete(`http://localhost:4444/api/tasks/${taskId}/delete`, {
+    axios.delete(`https://note-server-gu2m.onrender.com/api/tasks/${taskId}/delete`, {
       headers: {
         Authorization: localStorage.getItem('token'), // Include the JWT token in the headers
       },
     })
       .then(response => {
         console.log('Task deleted:', response.data);
-        // Optionally, update the UI or perform other actions
         setTasks(tasks.filter(task => task._id !== taskId));
         toast.success('Task deleted successfully');
       })

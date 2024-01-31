@@ -10,9 +10,7 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // Send login credentials to the backend API
-    axios.post('http://localhost:4444/api/users/login', {
+    axios.post('https://note-server-gu2m.onrender.com/api/users/login', {
       username,
       password,
     })
@@ -20,7 +18,6 @@ const Login = () => {
       const token = response.data.token;
       localStorage.setItem('token', token);
       console.log('Login successful');
-      // Navigate to the task list after successful login
       toast.success('Login successful');
       navigate('/');
     })
