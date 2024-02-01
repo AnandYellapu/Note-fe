@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { AppBar, Toolbar, IconButton, Drawer, List, ListItem, ListItemText } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
 import { BiSolidNotepad } from 'react-icons/bi';
 
 const NavBar = () => {
@@ -7,10 +9,7 @@ const NavBar = () => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleLogout = () => {
-    // Clear the JWT token from local storage
     localStorage.removeItem('token');
-
-    // Optionally, redirect to the login page or any other page after logout
     navigate('/login');
   };
 
@@ -18,42 +17,38 @@ const NavBar = () => {
     setMobileMenuOpen(!isMobileMenuOpen);
   };
 
+  const menuItems = [
+    { label: 'Home', path: '/' },
+    { label: 'New Note', path: '/create' },
+    { label: 'Login', path: '/login' },
+    { label: 'Register', path: '/register' },
+  ];
+
   return (
-    <nav className="navbar">
-      <div className="logo-container">
+    <AppBar position="static">
+      <Toolbar>
+        <IconButton edge="end" color="inherit" onClick={toggleMobileMenu} sx={{ mr: 2 }}>
+          <MenuIcon />
+        </IconButton>
         <Link to="/" className="logo">
           <BiSolidNotepad /> Note Maker
         </Link>
-      </div>
-      <ul className="nav-list">
-        <li className="nav-item"><Link to="/" className="nav-link">Home</Link></li>
-        <li className="nav-item"><Link to="/create" className="nav-link">New Note</Link></li>
-        <li className="nav-item dropdown">
-          <span className="nav-link dropdown-toggle" onClick={toggleMobileMenu}>Account</span>
-          <ul className={`dropdown-menu ${isMobileMenuOpen ? 'open' : ''}`}>
-            <li className="dropdown-item"><Link to="/login" className="nav-link">Login</Link></li>
-            <li className="dropdown-item"><Link to="/register" className="nav-link">Register</Link></li>
-            <li className="dropdown-item">
-              <button onClick={handleLogout} className="logout-btn">Logout</button>
-            </li>
-          </ul>
-        </li>
-      </ul>
-      <div className="hamburger-menu" onClick={toggleMobileMenu}>
-        <div className={`bar ${isMobileMenuOpen ? 'open' : ''}`}></div>
-        <div className={`bar ${isMobileMenuOpen ? 'open' : ''}`}></div>
-        <div className={`bar ${isMobileMenuOpen ? 'open' : ''}`}></div>
-      </div>
-      <div className={`mobile-menu ${isMobileMenuOpen ? 'open' : ''}`}>
-        <Link to="/" className="nav-link">Home</Link>
-        <Link to="/create" className="nav-link">New Note</Link>
-        <Link to="/login" className="nav-link">Login</Link>
-        <Link to="/register" className="nav-link">Register</Link>
-        <button onClick={handleLogout} className="logout-btn">Logout</button>
-      </div>
-    </nav>
+      </Toolbar>
+
+      <Drawer anchor="right" open={isMobileMenuOpen} onClose={toggleMobileMenu}>
+        <List>
+          {menuItems.map((item) => (
+            <ListItem button key={item.label} component={Link} to={item.path} onClick={toggleMobileMenu}>
+              <ListItemText primary={item.label} />
+            </ListItem>
+          ))}
+          <ListItem button onClick={handleLogout}>
+            <ListItemText primary="Logout" />
+          </ListItem>
+        </List>
+      </Drawer>
+    </AppBar>
   );
-}
+};
 
 export default NavBar;
-

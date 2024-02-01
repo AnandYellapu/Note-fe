@@ -19,7 +19,7 @@ const Login = () => {
       localStorage.setItem('token', token);
       console.log('Login successful');
       toast.success('Login successful');
-      navigate('/');
+      navigate('/tasklist');
     })
     .catch(error => {
       console.error('Error logging in:', error);

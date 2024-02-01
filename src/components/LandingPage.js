@@ -1,36 +1,70 @@
+// // LandingPage.js
+
+// import React from 'react';
+// import { Link } from 'react-router-dom';
+
+// const LandingPage = () => {
+//   return (
+//     <div className="landing-page-container">
+//       <header className="landing-page-header">
+//         <h1 className="landing-page-title">Welcome to Note Maker</h1>
+//       </header>
+
+//       <section className="landing-page-content">
+//         <p className="landing-page-paragraph">
+//           Note Maker is your go-to platform for creating and managing notes effortlessly. Whether you're organizing your thoughts, jotting down ideas, or keeping track of tasks, Note Maker has got you covered.
+//         </p>
+
+//         <p className="landing-page-paragraph">
+//           Create, edit, and organize your notes seamlessly. Stay productive and never miss a detail with our intuitive note-taking interface.
+//         </p>
+
+//         <p className="landing-page-paragraph">
+//           Ready to get started? Click the button below to begin making your notes.
+//         </p>
+
+//         <Link to="/tasklist" className="get-started-button">
+//           Get Started
+//         </Link>
+//       </section>
+//     </div>
+//   );
+// };
+
+// export default LandingPage;
+
+
+
+
+
+
+// LandingPage.js
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { BiSolidNotepad } from 'react-icons/bi';
 
 const LandingPage = () => {
   return (
-    <div className="landing-page">
-      <header className="header">
-        <h1 className="title">My Notes App</h1>
-        <p className="subtitle">Your go-to application for organizing your thoughts.</p>
+    <div className="landing-page-container">
+      <header className="landing-page-header">
+        <BiSolidNotepad className="landing--logo" />
+        <h1 className="landing--title">Note Maker</h1>
       </header>
-      <main className="main">
-        <section className="features">
-          <div className="feature">
-            <h2 className="feature-title">Easy to Use</h2>
-            <p className="feature-description">Intuitive interface for effortless note-taking.</p>
-          </div>
-          <div className="feature">
-            <h2 className="feature-title">Organize Efficiently</h2>
-            <p className="feature-description">Sort and categorize your notes for quick access.</p>
-          </div>
-          <div className="feature">
-            <h2 className="feature-title">Sync Across Devices</h2>
-            <p className="feature-description">Access your notes anytime, anywhere.</p>
-          </div>
-        </section>
-        <section className="cta">
-          <h2 className="cta-title">Get Started</h2>
-          <p className="cta-description">Join thousands of users who have transformed their note-taking experience.</p>
-          <button className="cta-button">Sign Up Now</button>
-        </section>
-      </main>
-      <footer className="footer">
-        <p className="footer-text">&copy; 2024 My Notes App. All rights reserved.</p>
-      </footer>
+
+      <section className="landing-page-content">
+        <p className="landing-page-paragraph">
+          Note Maker is your go-to platform for creating and managing notes effortlessly. Whether you're organizing your thoughts, jotting down ideas, or keeping track of tasks, Note Maker has got you covered.
+        </p>
+        <p className="landing-page-paragraph">
+          Create, edit, and organize your notes seamlessly. Stay productive and never miss a detail with our intuitive note-taking interface.
+        </p>
+        <p className="landing-page-paragraph">
+          Ready to get started? Click the button below to begin making your notes.
+        </p>
+        <Link to="/tasklist" className="get-started-button">
+          Get Started
+        </Link>
+      </section>
     </div>
   );
 };
