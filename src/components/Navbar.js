@@ -18,7 +18,7 @@ const NavBar = () => {
   };
 
   const menuItems = [
-    { label: 'Home', path: '/' },
+    { label: 'Home', path: '/tasklist' },
     { label: 'New Note', path: '/create' },
     { label: 'Login', path: '/login' },
     { label: 'Register', path: '/register' },
