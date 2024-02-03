@@ -604,3 +604,115 @@
     }
   }
   
+
+/* Search */
+
+  .search-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background-color: #f8f8f8; /* Background color */
+    padding: 10px;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: background-color 0.3s ease;
+  }
+  
+  .search-container:hover {
+    background-color: #e6e6e6; /* Background color on hover */
+  }
+  
+  .search-icon {
+    margin-right: 10px;
+    color: #555;
+    transition: color 0.3s ease;
+  }
+  
+  .search-container:hover .search-icon {
+    color: #007bff; /* Change color on container hover */
+  }
+  
+  input[type="text"] {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    background-color: transparent;
+    width: 100%;
+  }
+  
+  input[type="text"]::placeholder {
+    color: #999;
+  }
+  
+  .search-container input[type="text"]::placeholder {
+    transition: color 0.3s ease;
+  }
+  
+  .search-container:hover input[type="text"]::placeholder {
+    color: #555; /* Change placeholder color on container hover */
+  }
+  
+  /* Border animation on input focus */
+  input[type="text"]:focus {
+    border-bottom: 2px solid #007bff;
+    transition: border-bottom 0.3s ease;
+  }
+  
+  /* Media query for responsiveness */
+  @media (max-width: 600px) {
+    .search-container {
+      flex-direction: column;
+    }
+  
+    .search-icon {
+      margin-bottom: 10px;
+    }
+  }
+  
+
+  /* Pagination */
+
+  .pagination-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    margin: 0 5px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #0056b3; /* Darker color on hover */
+  }
+  
+  button:focus {
+    outline: none;
+  }
+  
+  /* Optional: Styling for active page */
+  button.active {
+    background-color: #0056b3;
+  }
+  
+  /* Optional: Disabled button styling */
+  button[disabled] {
+    background-color: #ddd;
+    color: #888;
+    cursor: not-allowed;
+  }
+  
+  /* Optional: Add transition for active state */
+  button.active:hover {
+    background-color: #004080; /* Darker color on hover for active state */
+  }
+  
