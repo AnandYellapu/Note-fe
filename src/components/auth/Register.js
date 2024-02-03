@@ -14,7 +14,7 @@ const Register = () => {
     e.preventDefault();
 
     // Send registration data to the backend API
-    axios.post('https://note-server-gu2m.onrender.com//api/users/register', {
+    axios.post('https://note-server-gu2m.onrender.com/api/users/register', {
       username,
       email,
       password,

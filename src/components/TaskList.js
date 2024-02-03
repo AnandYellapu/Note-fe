@@ -23,7 +23,7 @@ const TaskList = () => {
   const [tasksPerPage] = useState(5);
 
   useEffect(() => {
-    axios.get('https://note-server-gu2m.onrender.com//api/tasks', {
+    axios.get('https://note-server-gu2m.onrender.com/api/tasks', {
       headers: {
         Authorization: localStorage.getItem('token'),
       },
@@ -40,7 +40,7 @@ const TaskList = () => {
   }, []);
 
   const handleCompleteTask = (taskId) => {
-    axios.put(`https://note-server-gu2m.onrender.com//api/tasks/${taskId}/update`, { completed: true }, {
+    axios.put(`https://note-server-gu2m.onrender.com/api/tasks/${taskId}/update`, { completed: true }, {
       headers: {
         Authorization: localStorage.getItem('token'),
       },
@@ -84,7 +84,7 @@ const TaskList = () => {
   };
 
   const handleSaveEdit = (taskId) => {
-    axios.put(`https://note-server-gu2m.onrender.com//api/tasks/${taskId}/update`, editedTask, {
+    axios.put(`https://note-server-gu2m.onrender.com/api/tasks/${taskId}/update`, editedTask, {
       headers: {
         Authorization: localStorage.getItem('token'),
       },
@@ -116,7 +116,7 @@ const TaskList = () => {
         {
           label: 'Yes',
           onClick: () => {
-            axios.delete(`https://note-server-gu2m.onrender.com//api/tasks/${taskId}/delete`, {
+            axios.delete(`https://note-server-gu2m.onrender.com/api/tasks/${taskId}/delete`, {
               headers: {
                 Authorization: localStorage.getItem('token'),
               },

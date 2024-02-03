@@ -10,7 +10,7 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('https://note-server-gu2m.onrender.com//api/users/login', {
+    axios.post('https://note-server-gu2m.onrender.com/api/users/login', {
       username,
       password,
     })
