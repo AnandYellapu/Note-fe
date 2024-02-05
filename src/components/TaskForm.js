@@ -41,10 +41,12 @@ const TaskForm = () => {
     const formData = {
       title,
       description,
-      deadline,
+      // deadline,
+      deadline: new Date(deadline).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
       priority,
       tags,
-      reminder,
+      // reminder,
+      reminder: reminder ? new Date(reminder).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }) : '',
     };
 
     try {
