@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import CircularProgress from '@mui/material/CircularProgress';
+// import CircularProgress from '@mui/material/CircularProgress';
+import  SyncLoader  from 'react-spinners/SyncLoader';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
@@ -47,7 +48,7 @@ const TaskForm = () => {
     };
 
     try {
-      const response = await axios.post('https://note-server-gu2m.onrender.com/api/tasks/create', formData, {
+      const response = await axios.post('http://localhost:4444/api/tasks/create', formData, {
         headers: {
           Authorization: localStorage.getItem('token'),
         },
@@ -163,16 +164,17 @@ const TaskForm = () => {
           }}
         />
         <Button
-          variant="contained"
-          color="primary"
-          type="submit"
-          disabled={loading}
-          fullWidth
-          style={{ marginTop: '20px' }}
-          startIcon={loading ? <CircularProgress size={24} color="inherit" /> : <NoteAddIcon />}
-        >
-          Create Task
-        </Button>
+        variant="contained"
+        color="primary"
+        type="submit"
+        disabled={loading}
+        fullWidth
+        style={{ marginTop: '20px' }}
+        startIcon={loading ? <SyncLoader size={10} color="white" /> : <NoteAddIcon />}
+      >
+        Create Task
+      </Button>
+
       </form>
     </div>
   );

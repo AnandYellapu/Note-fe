@@ -712,3 +712,52 @@
   margin-right: 10px;
 }
 */
+
+
+
+.confirmation-dialog {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}
+
+.confirmation-buttons button {
+  margin-right: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.confirm-btn {
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  margin-top: 20px;
+  border-radius: 5px;
+}
+
+.cancel-btn {
+  background-color: #f44336;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+}
+
+
+
+
+/* Add these styles to your CSS file */
+.loading-skeleton-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Adjust the gap between loading skeletons */
+}
+
+.loading-skeleton-item {
+  background-color: #f0f0f0; /* Adjust the background color of the loading skeleton */
+  border-radius: 5px;
+  overflow: hidden;
+}

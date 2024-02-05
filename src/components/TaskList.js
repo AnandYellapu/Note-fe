@@ -3,25 +3,14 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
-import { ScaleLoader } from 'react-spinners';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  TextField,
-  InputAdornment,
-  IconButton,
-  Button,
-  Typography,
-  Modal,
-} from '@mui/material';
+// import { ScaleLoader } from 'react-spinners';
+import  PacmanLoader  from 'react-spinners/PacmanLoader';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TextField, InputAdornment, IconButton, Button, Typography, Modal } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import Skeleton from 'react-loading-skeleton';
+import Pagination from './Pagination';
 
 const TaskList = () => {
   const [tasks, setTasks] = useState([]);
@@ -33,26 +22,37 @@ const TaskList = () => {
   const [editingTask, setEditingTask] = useState(null);
   const [editModalOpen, setEditModalOpen] = useState(false);
 
-  useEffect(() => {
-    setLoadingTasks(true);
-    axios.get('https://note-server-gu2m.onrender.com/api/tasks', {
-      headers: {
-        Authorization: localStorage.getItem('token'),
-      },
+ 
+
+
+  // Inside your useEffect
+useEffect(() => {
+  setLoadingTasks(true);
+  axios.get('http://localhost:4444/api/tasks', {
+    headers: {
+      Authorization: localStorage.getItem('token'),
+    },
+  })
+    .then(response => {
+      setTasks(response.data);
+      setLoadingTasks(false);
     })
-      .then(response => {
-        setTasks(response.data);
-        setLoadingTasks(false);
-      })
-      .catch(error => {
-        console.error('Error fetching tasks:', error);
-        setError('Error fetching tasks. Please try again.');
-        setLoadingTasks(false);
-      });
-  }, []);
+    .catch(error => {
+      console.error('Error fetching tasks:', error);
+      if (error.response) {
+        setError(`Server error: ${error.response.status} - ${error.response.data.message}`);
+      } else if (error.request) {
+        setError('No response received from the server. Please try again.');
+      } else {
+        setError('An unexpected error occurred. Please try again.');
+      }
+      setLoadingTasks(false);
+    });
+}, []);
+
 
   const handleCompleteTask = (taskId) => {
-    axios.put(`https://note-server-gu2m.onrender.com/api/tasks/${taskId}/update`, { completed: true }, {
+    axios.put(`http://localhost:4444/api/tasks/${taskId}/update`, { completed: true }, {
       headers: {
         Authorization: localStorage.getItem('token'),
       },
@@ -67,36 +67,55 @@ const TaskList = () => {
       });
   };
 
-  const handleDeleteTask = (taskId) => {
+ 
+
+
+  const handleDeleteTask = (taskId, title = 'Confirm Deletion', message = 'Are you sure you want to delete this task?') => {
     confirmAlert({
-      title: 'Confirm Deletion',
-      message: 'Are you sure you want to delete this task?',
-      buttons: [
-        {
-          label: 'Yes',
-          onClick: () => {
-            axios.delete(`https://note-server-gu2m.onrender.com/api/tasks/${taskId}/delete`, {
-              headers: {
-                Authorization: localStorage.getItem('token'),
-              },
+      customUI: ({ onClose }) => {
+        let loading = true;
+  
+        const handleConfirm = () => {
+          onClose(); 
+  
+          axios.delete(`http://localhost:4444/api/tasks/${taskId}/delete`, {
+            headers: {
+              Authorization: localStorage.getItem('token'),
+            },
+          })
+            .then(response => {
+              setTasks(tasks.filter(task => task._id !== taskId));
+              toast.success('Task deleted successfully');
             })
-              .then(response => {
-                setTasks(tasks.filter(task => task._id !== taskId));
-                toast.success('Task deleted successfully');
-              })
-              .catch(error => {
-                console.error('Error deleting task:', error);
-                toast.error('Error deleting task. Please try again.');
-              });
-          },
-        },
-        {
-          label: 'No',
-          onClick: () => console.log('Deletion canceled'),
-        },
-      ],
+            .catch(error => {
+              console.error('Error deleting task:', error);
+              toast.error('Error deleting task. Please try again.');
+            })
+            .finally(() => {
+              loading = false;
+              onClose(); 
+            });
+        };
+  
+        return (
+          <div className="confirmation-dialog">
+            <h2>{title}</h2>
+            <p>{message}</p>
+            <div className="spinner-container">
+              {loading && <PacmanLoader color="#4CAF50" loading={loading} size={25} />}
+            </div>
+            {loading && (
+              <div className="confirmation-buttons">
+                <button className="confirm-btn" onClick={handleConfirm}>Yes</button>
+                <button className="cancel-btn" onClick={onClose}>No</button>
+              </div>
+            )}
+          </div>
+        );
+      }
     });
   };
+
 
   const handleEditTask = (task) => {
     setEditingTask(task);
@@ -104,7 +123,7 @@ const TaskList = () => {
   };
 
   const handleSaveEdit = () => {
-    axios.put(`https://note-server-gu2m.onrender.com/api/tasks/${editingTask._id}/update`, editingTask, {
+    axios.put(`http://localhost:4444/api/tasks/${editingTask._id}/update`, editingTask, {
       headers: {
         Authorization: localStorage.getItem('token'),
       },
@@ -133,9 +152,13 @@ const TaskList = () => {
 
   const indexOfLastTask = currentPage * tasksPerPage;
   const indexOfFirstTask = indexOfLastTask - tasksPerPage;
-  const currentTasks = filteredTasks.slice(indexOfFirstTask, indexOfLastTask);
+  // const currentTasks = filteredTasks.slice(indexOfFirstTask, indexOfLastTask);
+const sortedTasks = filteredTasks.slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+const currentTasks = sortedTasks.slice(indexOfFirstTask, indexOfLastTask);
 
   const paginate = pageNumber => setCurrentPage(pageNumber);
+
+
 
   return (
     <div className="task-list-container">
@@ -158,16 +181,28 @@ const TaskList = () => {
           }}
         />
       </div>
+
+
+     
+
+
       {loadingTasks ? (
-        <div className="ClimbingBoxLoader-loader">
-          <ScaleLoader color="black" loading={loadingTasks} size={20} />
-          <Typography variant="p" className="loading-message">Loading...</Typography>
+        <div className="loading-skeleton-container">
+          {[...Array(5)].map((_, index) => (
+            <div key={index} className="loading-skeleton-item">
+              <Skeleton height={50} width={'100%'} />
+            </div>
+          ))}
         </div>
       ) : error ? (
         <Typography variant="p" className="error-message">{error}</Typography>
       ) : filteredTasks.length === 0 ? (
         <Typography variant="p" className="no-tasks-message">No tasks found.</Typography>
       ) : (
+
+
+
+
         <>
           <TableContainer component={Paper}>
             <Table className="task-table">
@@ -215,15 +250,15 @@ const TaskList = () => {
               </TableBody>
             </Table>
           </TableContainer>
-          <div className="pagination-container">
-            {Array.from({ length: Math.ceil(filteredTasks.length / tasksPerPage) }).map((_, index) => (
-              <Button key={index} onClick={() => paginate(index + 1)} className="pagination-button">
-                {index + 1}
-              </Button>
-            ))}
-          </div>
-        </>
-      )}
+          
+
+          <Pagination
+          currentPage={currentPage}
+          totalPages={Math.ceil(filteredTasks.length / tasksPerPage)}
+          onPageChange={paginate}
+        />
+      </>
+    )}
   
       {/* Edit Task Modal */}
       <Modal open={editModalOpen} onClose={handleCloseEditModal}>
@@ -272,9 +307,29 @@ const TaskList = () => {
     <Button onClick={handleCloseEditModal} className="modal-button">Cancel</Button>
   </div>
 </Modal>
-
     </div>
   );
 }
 
 export default TaskList;
+
+
+
+
+
+
+
+
+
+
+
+// {loadingTasks ? (
+  //   <div className="ClimbingBoxLoader-loader">
+  //     <ScaleLoader color="black" loading={loadingTasks} size={20} />
+  //     <Typography variant="p" className="loading-message">Loading...</Typography>
+  //   </div>
+  // ) : error ? (
+  //   <Typography variant="p" className="error-message">{error}</Typography>
+  // ) : filteredTasks.length === 0 ? (
+  //   <Typography variant="p" className="no-tasks-message">No tasks found.</Typography>
+  // ) : (

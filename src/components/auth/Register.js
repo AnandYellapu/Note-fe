@@ -23,7 +23,7 @@ const Register = () => {
     e.preventDefault();
     setLoading(true);
 
-    axios.post('https://note-server-gu2m.onrender.com/api/users/register', {
+    axios.post('http://localhost:4444/api/users/register', {
       username,
       email,
       password,
