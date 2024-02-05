@@ -28,7 +28,7 @@ const TaskList = () => {
   // Inside your useEffect
 useEffect(() => {
   setLoadingTasks(true);
-  axios.get('https://note-server-gu2m.onrender.com/api/tasks', {
+  axios.get('http://localhost:4444/api/tasks', {
     headers: {
       Authorization: localStorage.getItem('token'),
     },
@@ -52,7 +52,7 @@ useEffect(() => {
 
 
   const handleCompleteTask = (taskId) => {
-    axios.put(`https://note-server-gu2m.onrender.com/api/tasks/${taskId}/update`, { completed: true }, {
+    axios.put(`http://localhost:4444/api/tasks/${taskId}/update`, { completed: true }, {
       headers: {
         Authorization: localStorage.getItem('token'),
       },
@@ -78,7 +78,7 @@ useEffect(() => {
         const handleConfirm = () => {
           onClose(); 
   
-          axios.delete(`https://note-server-gu2m.onrender.com/api/tasks/${taskId}/delete`, {
+          axios.delete(`http://localhost:4444/api/tasks/${taskId}/delete`, {
             headers: {
               Authorization: localStorage.getItem('token'),
             },
@@ -123,7 +123,7 @@ useEffect(() => {
   };
 
   const handleSaveEdit = () => {
-    axios.put(`https://note-server-gu2m.onrender.com/api/tasks/${editingTask._id}/update`, editingTask, {
+    axios.put(`http://localhost:4444/api/tasks/${editingTask._id}/update`, editingTask, {
       headers: {
         Authorization: localStorage.getItem('token'),
       },
