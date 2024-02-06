@@ -224,7 +224,7 @@ const currentTasks = sortedTasks.slice(indexOfFirstTask, indexOfLastTask);
                     <TableCell>{task.title}</TableCell>
                     <TableCell>
                       <ol className="task-description-list">
-                        {task.description.split('\n').map((line, i) => (
+                        {task.description?.split('\n').map((line, i) => (
                           <li key={i}>{line}</li>
                         ))}
                       </ol>
