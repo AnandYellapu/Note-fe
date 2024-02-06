@@ -6,6 +6,7 @@ import TaskList from './components/TaskList';
 import TaskForm from './components/TaskForm';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
+import Footer from './components/Footer';
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>
+      <Footer />
     </BrowserRouter>
   );
 }

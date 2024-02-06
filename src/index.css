@@ -761,3 +761,56 @@
   border-radius: 5px;
   overflow: hidden;
 }
+
+
+
+/* styles.css */
+
+/* .footer-Container {
+  background-color: #333;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+} */
+
+.footer-Text {
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+}
+
+.footer-date {
+  font-size: 1.1rem;
+  font-style: italic;
+}
+
+.date-time-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.date-icon {
+  margin-right: 5px;
+}
+
+.current-date {
+  font-weight: bold;
+}
+
+.current-time {
+  margin-left: 5px;
+}
+
+/* Add animation for the date and time */
+@keyframes fadeInOut {
+  0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.footer-date {
+  animation: fadeInOut 2s infinite;
+}

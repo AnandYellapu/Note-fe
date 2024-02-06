@@ -21,7 +21,7 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
 
-    axios.post('https://note-be-production.up.railway.app/api/users/login', {
+    axios.post('https://note-be-rgsa.onrender.com/api/users/login', {
       username,
       password,
     })
