@@ -23,7 +23,7 @@ const Register = () => {
     e.preventDefault();
     setLoading(true);
 
-    axios.post('https://note-be-rgsa.onrender.com/api/users/register', {
+    axios.post('https://note-be-production.up.railway.app/api/users/register', {
       username,
       email,
       password,

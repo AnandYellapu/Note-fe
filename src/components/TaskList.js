@@ -28,7 +28,7 @@ const TaskList = () => {
   // Inside your useEffect
 useEffect(() => {
   setLoadingTasks(true);
-  axios.get('https://note-be-rgsa.onrender.com/api/tasks', {
+  axios.get('https://note-be-production.up.railway.app/api/tasks', {
     headers: {
       Authorization: localStorage.getItem('token'),
     },
@@ -52,7 +52,7 @@ useEffect(() => {
 
 
   const handleCompleteTask = (taskId) => {
-    axios.put(`https://note-be-rgsa.onrender.com/api/tasks/${taskId}/update`, { completed: true }, {
+    axios.put(`https://note-be-production.up.railway.app/api/tasks/${taskId}/update`, { completed: true }, {
       headers: {
         Authorization: localStorage.getItem('token'),
       },
@@ -78,7 +78,7 @@ useEffect(() => {
         const handleConfirm = () => {
           onClose(); 
   
-          axios.delete(`https://note-be-rgsa.onrender.com/api/tasks/${taskId}/delete`, {
+          axios.delete(`https://note-be-production.up.railway.app/api/tasks/${taskId}/delete`, {
             headers: {
               Authorization: localStorage.getItem('token'),
             },
@@ -123,7 +123,7 @@ useEffect(() => {
   };
 
   const handleSaveEdit = () => {
-    axios.put(`https://note-be-rgsa.onrender.com/api/tasks/${editingTask._id}/update`, editingTask, {
+    axios.put(`https://note-be-production.up.railway.app/api/tasks/${editingTask._id}/update`, editingTask, {
       headers: {
         Authorization: localStorage.getItem('token'),
       },
