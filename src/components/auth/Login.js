@@ -21,7 +21,7 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
 
-    axios.post('http://localhost:4444/api/users/login', {
+    axios.post('https://note-be-rgsa.onrender.com/api/users/login', {
       username,
       password,
     })
