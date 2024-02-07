@@ -413,6 +413,14 @@ const TaskForm = () => {
       return;
     }
 
+    let adjustedReminder = null;
+    if (reminder) {
+      const reminderDate = new Date(reminder);
+      reminderDate.setHours(reminderDate.getHours() - 5); // Subtract 5 hours
+      reminderDate.setMinutes(reminderDate.getMinutes() - 31); // Subtract 31 minutes
+      adjustedReminder = reminderDate.toISOString().slice(0, 16).replace('T', ' '); // Format to 'YYYY-MM-DDTHH:mm'
+    }
+
     // Continue with API call
     const formData = {
       title,
@@ -420,8 +428,9 @@ const TaskForm = () => {
       deadline,
       priority,
       tags,
-      // Convert reminder to 'YYYY-MM-DDTHH:mm' format
-      reminder: reminder ? reminder.replace('T', ' ') : '',
+      // // Convert reminder to 'YYYY-MM-DDTHH:mm' format
+      // reminder: reminder ? reminder.replace('T', ' ') : '',
+      reminder: adjustedReminder,
     };
 
     try {
