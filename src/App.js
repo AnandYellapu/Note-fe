@@ -26,6 +26,7 @@ function App() {
             <>
               <Navbar />
               <TaskList />
+              <Footer />
             </>
           }
         />
@@ -41,9 +42,15 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>
-      <Footer />
     </BrowserRouter>
   );
 }
 
 export default App;
+
+
+
+
+
+
+
