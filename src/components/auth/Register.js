@@ -11,45 +11,91 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import Email from '@mui/icons-material/Email';
 import Lock from '@mui/icons-material/Lock';
 import SendIcon from '@mui/icons-material/Send';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 const Register = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [passwordStrength, setPasswordStrength] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setLoading(true);
+  const calculatePasswordStrength = (password) => {
+    if (password.length < 8) {
+      return 'Weak';
+    }
 
-    axios.post('https://note-be-rgsa.onrender.com/api/users/register', {
-      username,
-      email,
-      password,
-    })
-    .then(response => {
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+    if (hasUpperCase && hasLowerCase && hasNumber && hasSpecialChar) {
+      return 'Strong';
+    } else if ((hasUpperCase && hasLowerCase) || (hasUpperCase && hasNumber) || (hasLowerCase && hasNumber) || (hasLowerCase && hasSpecialChar) || (hasNumber && hasSpecialChar)) {
+      return 'Medium';
+    } else {
+      return 'Weak';
+    }
+  };
+
+  const handlePasswordChange = (e) => {
+    const newPassword = e.target.value;
+    setPassword(newPassword);
+    const strength = calculatePasswordStrength(newPassword);
+    setPasswordStrength(strength);
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (loading) return; // Prevent multiple submissions while loading
+    setLoading(true);
+  
+    try {
+      const response = await axios.post('https://note-be-rgsa.onrender.com/api/users/register', {
+        username,
+        email,
+        password,
+      });
       console.log('Registration successful:', response.data);
       toast.success('Registration successful');
       setTimeout(() => {
         setLoading(false);
         navigate('/login');
       }, 4000);
-    })
-    .catch(error => {
-      if (error.response && error.response.status === 409) {
-        toast.error('User is already registered. Please try a different username or email.');
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        const errorMessage = error.response.data.error;
+        if (errorMessage === 'Username and email already exist.') {
+          toast.error('Username and email already exist. Please try different credentials.');
+        } else if (errorMessage === 'Username already exists.') {
+          toast.error('Username already exists. Please try a different username.');
+        } else if (errorMessage === 'Email already exists.') {
+          toast.error('Email already exists. Please try a different email.');
+        } else {
+          console.error('Error registering:', error);
+          toast.error('Error registering. Please try again.');
+        }
       } else {
         console.error('Error registering:', error);
         toast.error('Error registering. Please try again.');
       }
-    })
-    .finally(() => {
-      setTimeout(() => {
-        setLoading(false);
-      }, 4000);
-    });
+      setLoading(false);
+    }
   };
+  
+  
+  
+  
+  
+  
 
   return (
     <Paper elevation={3} className="register-container" style={{ padding: '20px', maxWidth: '400px', margin: 'auto', marginTop: '50px' }}>
@@ -64,6 +110,7 @@ const Register = () => {
           margin="normal"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          disabled={loading} // Disable input when loading
           InputProps={{
             startAdornment: (
               <AccountCircle color="action" />
@@ -78,6 +125,7 @@ const Register = () => {
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          disabled={loading} // Disable input when loading
           InputProps={{
             startAdornment: (
               <Email color="action" />
@@ -89,15 +137,24 @@ const Register = () => {
           variant="outlined"
           fullWidth
           margin="normal"
-          type="password"
+          type={showPassword ? 'text' : 'password'}
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={handlePasswordChange}
+          disabled={loading} // Disable input when loading
           InputProps={{
             startAdornment: (
               <Lock color="action" />
             ),
+            endAdornment: (
+              <Button onClick={togglePasswordVisibility} style={{ minWidth: 'auto' }}>
+                {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+              </Button>
+            ),
           }}
         />
+        <Typography variant="body2" style={{ marginTop: '10px' }}>
+          Password Strength: <strong>{passwordStrength}</strong>
+        </Typography>
         <Button
           variant="contained"
           color="primary"
